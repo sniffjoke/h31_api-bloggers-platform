@@ -35,8 +35,7 @@ export class LikesService {
         return likesCount;
       }),
     );
-    return console.log('likesCount: ', likes, dislikes);
-    // const likesCount = await this
+    return
   }
 
   async reCalculateLikesInfoForUserWithComments(userId: string) {
@@ -63,7 +62,6 @@ export class LikesService {
         return likesCount;
       }),
     );
-    return console.log('likesCount: ', likes, dislikes);
-    // const likesCount = await this
+    return
   }
 }
