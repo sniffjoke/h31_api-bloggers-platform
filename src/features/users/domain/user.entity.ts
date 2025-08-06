@@ -6,6 +6,7 @@ import {BlogEntity} from "../../blogs/domain/blogs.entity";
 import {PostEntity} from "../../posts/domain/posts.entity";
 import { BanInfoEntity } from './ban-info.entity';
 import { BanInfoDto } from '../api/models/input/ban-user.dto';
+import { BlogBanEntity } from '../../blogs/domain/blogBan.entity';
 
 
 @Entity('users')
@@ -44,6 +45,9 @@ export class UserEntity {
 
   @OneToMany(() => PostEntity, (post) => post.user, { cascade: true })
   posts: PostEntity[];
+
+  @OneToMany(() => BlogBanEntity, (blogBan) => blogBan.user, { cascade: true })
+  blogsBans: BlogBanEntity[];
 
   banUser(user: UserEntity, banModel: BanInfoDto) {
     user.banInfo.banDate = banModel.banDate;

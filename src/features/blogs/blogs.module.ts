@@ -11,10 +11,11 @@ import {BloggersController} from "./api/bloggers.controller";
 import {BlogsSAController} from "./api/blogs.sa.controller";
 import {UsersModule} from "../users/users.module";
 import {UsersCheckHandler} from "../users/domain/users.check-handler";
+import { BlogBanEntity } from './domain/blogBan.entity';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([BlogEntity, PostEntity]),
+        TypeOrmModule.forFeature([BlogEntity, PostEntity, BlogBanEntity]),
         PostsModule,
         UsersModule,
     ],

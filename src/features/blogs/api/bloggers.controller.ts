@@ -112,6 +112,16 @@ export class BloggersController {
     return deletePost;
   }
 
+  // --------------------- users ------------------------ //
+
+  @Put('users/:id/ban')
+  @HttpCode(204)
+  @UseGuards(JwtAuthGuard)
+  async banUserForBlog(@Param('id') id: string, @Body() dto: BlogCreateModel, @Req() req: Request) {
+    const updateBlog = await this.commandBus.execute(new UpdateBlogCommand(id, dto, req.headers.authorization as string));
+    return updateBlog;
+  }
+
 }
 
 
