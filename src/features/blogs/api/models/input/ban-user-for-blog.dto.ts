@@ -5,8 +5,10 @@ export class BanUserForBlogDto {
 
   @IsString({message: 'Должно быть строковым значением'})
   @Length(20, 1000, {message: 'Минимум знаков: 20'})
-  banReason: string | null;
+  banReason: string;
 
+}
+
+export class BanInfoForUserDto extends BanUserForBlogDto {
   blogId: string
-
 }

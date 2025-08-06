@@ -4,6 +4,7 @@ import {InjectDataSource, InjectRepository} from '@nestjs/typeorm';
 import {DataSource, Repository} from 'typeorm';
 import {BlogEntity} from '../domain/blogs.entity';
 import {UserEntity} from "../../users/domain/user.entity";
+import { BanInfoForUserDto } from '../api/models/input/ban-user-for-blog.dto';
 
 
 @Injectable()
@@ -58,4 +59,12 @@ export class BlogsRepositoryTO {
             {id},
         );
     }
+
+    async banUserForBlog(dto: BanInfoForUserDto) {
+        if (dto.isBanned) {
+
+        }
+        return console.log(dto)
+    }
+
 }

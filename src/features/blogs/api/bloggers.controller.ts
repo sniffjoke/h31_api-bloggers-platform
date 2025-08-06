@@ -27,6 +27,8 @@ import { BlogsQueryRepositoryTO } from '../infrastructure/blogs.query-repository
 import { PostsQueryRepositoryTO } from '../../posts/infrastructure/posts.query-repository.to';
 import {JwtAuthGuard} from "../../../core/guards/jwt-auth.guard";
 import {UsersService} from "../../users/application/users.service";
+import { BlogsService } from '../application/blogs.service';
+import { BanInfoForUserDto } from './models/input/ban-user-for-blog.dto';
 
 
 @Controller('blogger')
@@ -37,6 +39,7 @@ export class BloggersController {
     private readonly postsService: PostsService,
     private readonly postsQueryRepository: PostsQueryRepositoryTO,
     private readonly usersService: UsersService,
+    private readonly blogsService: BlogsService
   ) {
   }
 
@@ -116,10 +119,11 @@ export class BloggersController {
 
   @Put('users/:id/ban')
   @HttpCode(204)
-  @UseGuards(JwtAuthGuard)
-  async banUserForBlog(@Param('id') id: string, @Body() dto: BlogCreateModel, @Req() req: Request) {
-    const updateBlog = await this.commandBus.execute(new UpdateBlogCommand(id, dto, req.headers.authorization as string));
-    return updateBlog;
+  // @UseGuards(JwtAuthGuard)
+  async banUserForBlog(@Param('id') id: string, @Body() dto: BanInfoForUserDto, @Req() req: Request) {
+    // const updateBlog = await this.commandBus.execute(new UpdateBlogCommand(id, dto, req.headers.authorization as string));
+    // return updateBlog;
+    await this.blogsService.banUserForBlog(id, dto)
   }
 
 }
