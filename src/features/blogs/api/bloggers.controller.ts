@@ -119,11 +119,11 @@ export class BloggersController {
 
   @Put('users/:id/ban')
   @HttpCode(204)
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   async banUserForBlog(@Param('id') id: string, @Body() dto: BanInfoForUserDto, @Req() req: Request) {
     // const updateBlog = await this.commandBus.execute(new UpdateBlogCommand(id, dto, req.headers.authorization as string));
     // return updateBlog;
-    await this.blogsService.banUserForBlog(id, dto)
+    await this.blogsService.banUserForBlog(req.headers.authorization as string, dto)
   }
 
 }

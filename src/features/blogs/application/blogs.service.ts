@@ -1,17 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { BlogsRepositoryTO } from '../infrastructure/blogs.repository.to';
 import { BanInfoForUserDto } from '../api/models/input/ban-user-for-blog.dto';
+import { UsersService } from '../../users/application/users.service';
 
 @Injectable()
 export class BlogsService {
 
   constructor(
     private readonly blogsRepository: BlogsRepositoryTO,
+    private readonly usersService: UsersService,
   ) {
   }
 
-  async banUserForBlog(userId: string, dto: BanInfoForUserDto): Promise<void> {
-    return await this.blogsRepository.banUserForBlog(dto)
+  async banUserForBlog(bearerHeader: string, dto: BanInfoForUserDto) {
+    const user = await this.usersService.getUserByAuthToken(bearerHeader);
+
+    return await this.blogsRepository.banUserForBlog(dto, user)
   }
 
 }
