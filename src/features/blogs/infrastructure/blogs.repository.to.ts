@@ -86,9 +86,21 @@ export class BlogsRepositoryTO {
         newBan.userId = user.id;
         newBan.user = user;
         console.log('NewBan: ', newBan);
-        await this.banRepository.save(dto);
+        await this.banRepository.save(newBan);
       }
     }
     return;
   }
+
+  async getUsersForCurrentBlog(blogId: string) {
+    const bannedItems = await this.banRepository.find({
+      where: {blogId},
+      relations: ['user'],
+    })
+    return bannedItems.map(item => {
+      return item.user;
+    });
+
+  }
+
 }

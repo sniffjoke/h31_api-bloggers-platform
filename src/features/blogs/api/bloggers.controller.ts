@@ -194,13 +194,13 @@ export class BloggersController {
   @UseGuards(JwtAuthGuard)
   async getBannedUsersForBlog(
     @Param('id') id: string,
-    @Body() dto: BanInfoForUserDto,
-    @Req() req: Request,
+    // @Body() dto: BanInfoForUserDto,
+    // @Req() req: Request,
   ) {
     // const updateBlog = await this.commandBus.execute(new UpdateBlogCommand(id, dto, req.headers.authorization as string));
     // return updateBlog;
     // await this.blogsService.banUserForBlog(req.headers.authorization as string, dto)
-    return console.log(id);
+    return this.blogsService.getBannedUsers(id)
   }
 }
 

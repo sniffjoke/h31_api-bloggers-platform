@@ -14,8 +14,13 @@ export class BlogsService {
 
   async banUserForBlog(bearerHeader: string, dto: BanInfoForUserDto) {
     const user = await this.usersService.getUserByAuthToken(bearerHeader);
+    console.log('user: ', user);
 
     return await this.blogsRepository.banUserForBlog(dto, user)
+  }
+
+  async getBannedUsers(blogId: string) {
+    return await this.blogsRepository.getUsersForCurrentBlog(blogId)
   }
 
 }
