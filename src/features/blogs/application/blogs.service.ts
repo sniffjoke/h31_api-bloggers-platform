@@ -21,6 +21,8 @@ export class BlogsService {
   }
 
   async getBannedUsers(blogId: string) {
+    const blog = await this.blogsRepository.findBlogById(blogId);
+    if (!blog) throw new NotFoundException(`Blog with id ${blogId} not found`);
     const users = await this.blogsRepository.getUsersForCurrentBlog(blogId)
     // console.log('users: ', users);
     return users
