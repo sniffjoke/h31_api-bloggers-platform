@@ -105,13 +105,13 @@ export class BlogsRepositoryTO {
   }
 
   async getUsersForCurrentBlog(blogId: string) {
-    // const bannedItems = await this.banRepository.find({
-    //   where: {blogId},
-    //   relations: ['user'],
-    // })
-    // return bannedItems.map(item => {
-    //   return item.user;
-    // });
+    const bannedItems = await this.banRepository.find({
+      where: {blogId},
+      relations: ['user'],
+    })
+    return bannedItems.map(item => {
+      return item.user;
+    });
 
   }
 
