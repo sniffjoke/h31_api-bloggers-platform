@@ -20,7 +20,9 @@ export class BlogsService {
   }
 
   async getBannedUsers(blogId: string) {
-    return await this.blogsRepository.getUsersForCurrentBlog(blogId)
+    const users = await this.blogsRepository.getUsersForCurrentBlog(blogId)
+    console.log('users: ', users);
+    return users
   }
 
 }

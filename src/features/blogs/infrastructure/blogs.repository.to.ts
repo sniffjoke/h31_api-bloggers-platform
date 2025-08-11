@@ -107,10 +107,10 @@ export class BlogsRepositoryTO {
   async getUsersForCurrentBlog(blogId: string) {
     const bannedItems = await this.banRepository.find({
       where: {blogId},
-      relations: ['user'],
+      relations: ['user', 'user.banInfo'],
     })
     return bannedItems.map(item => {
-      return item.user;
+      return item.user.banInfo;
     });
 
   }
