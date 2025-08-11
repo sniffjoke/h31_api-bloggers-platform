@@ -186,6 +186,7 @@ export class BloggersController {
     await this.blogsService.banUserForBlog(
       req.headers.authorization as string,
       dto,
+      id
     );
   }
 

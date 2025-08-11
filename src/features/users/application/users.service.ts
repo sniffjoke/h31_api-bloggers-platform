@@ -65,4 +65,9 @@ export class UsersService {
     return user
   }
 
+  async findUserById(userId: string) {
+    const user = await this.usersRepository.findUserById(userId);
+    return user;
+  }
+
 }
