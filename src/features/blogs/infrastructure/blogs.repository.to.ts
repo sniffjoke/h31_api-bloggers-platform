@@ -73,6 +73,8 @@ export class BlogsRepositoryTO {
   // }
 
   async banUserForBlog(dto: BanInfoForUserDto, user: UserEntity) {
+    const ifBlogExist = await this.bRepository.findOne({where: {id: dto.blogId}})
+    if (!ifBlogExist) throw new NotFoundException(`Blog with id ${dto.blogId} not found`);
     if (dto.isBanned) {
       const isBanExist = await this.banRepository.findOne({
         where: { userId: user.id, blogId: dto.blogId },
@@ -84,22 +86,32 @@ export class BlogsRepositoryTO {
         const newBan = new BlogBanEntity();
         newBan.blogId = dto.blogId;
         newBan.userId = user.id;
-        newBan.user = user;
-        console.log('NewBan: ', newBan);
+        // newBan.user = user;
+        // newBan.blog = blog;
+        // console.log('NewBan: ', newBan);
         await this.banRepository.save(newBan);
+      }
+    } else {
+      const isBanExist = await this.banRepository.findOne({
+        where: { userId: user.id, blogId: dto.blogId },
+      });
+      if (!isBanExist) {
+        throw new NotFoundException(`Not banned`);
+      } else {
+        await this.banRepository.delete({id: isBanExist.id})
       }
     }
     return;
   }
 
   async getUsersForCurrentBlog(blogId: string) {
-    const bannedItems = await this.banRepository.find({
-      where: {blogId},
-      relations: ['user'],
-    })
-    return bannedItems.map(item => {
-      return item.user;
-    });
+    // const bannedItems = await this.banRepository.find({
+    //   where: {blogId},
+    //   relations: ['user'],
+    // })
+    // return bannedItems.map(item => {
+    //   return item.user;
+    // });
 
   }
 

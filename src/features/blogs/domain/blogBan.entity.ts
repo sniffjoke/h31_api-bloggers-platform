@@ -18,7 +18,7 @@ export class BlogBanEntity {
     @ManyToOne(() => UserEntity, (user) => user.blogsBans, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'userId' })
     user: UserEntity;
-
+    //
     @ManyToOne(() => BlogEntity, (blog) => blog.blogsBans, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'blogId' })
     blog: BlogEntity;
