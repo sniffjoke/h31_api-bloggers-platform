@@ -196,12 +196,15 @@ export class BloggersController {
   async getBannedUsersForBlog(
     @Param('id') id: string,
     // @Body() dto: BanInfoForUserDto,
-    // @Req() req: Request,
+    @Req() req: Request,
   ) {
     // const updateBlog = await this.commandBus.execute(new UpdateBlogCommand(id, dto, req.headers.authorization as string));
     // return updateBlog;
     // await this.blogsService.banUserForBlog(req.headers.authorization as string, dto)
-    return this.blogsService.getBannedUsers(id)
+    return this.blogsService.getBannedUsers(
+      req.headers.authorization as string,
+      id
+    )
   }
 }
 

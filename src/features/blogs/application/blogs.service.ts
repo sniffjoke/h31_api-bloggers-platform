@@ -24,9 +24,11 @@ export class BlogsService {
     return await this.blogsRepository.banUserForBlog(dto, user)
   }
 
-  async getBannedUsers(blogId: string) {
+  async getBannedUsers(bearerHeader: string, blogId: string) {
+    const curUser = await this.usersService.getUserByAuthToken(bearerHeader);
     const blog = await this.blogsRepository.findBlogById(blogId);
     if (!blog) throw new NotFoundException(`Blog with id ${blogId} not found`);
+    if (curUser.id !== blog.userId) throw new ForbiddenException('Not match');
     const users = await this.blogsRepository.getUsersForCurrentBlog(blogId)
     // console.log('users: ', users);
     return users
