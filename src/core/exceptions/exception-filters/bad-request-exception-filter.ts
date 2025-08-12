@@ -8,7 +8,7 @@ export class BadRequestExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    // console.log('error: ', exception.getResponse());
+    console.log('error: ', exception.getResponse());
     // console.log('error: ', request.url)
     const status = exception.getStatus();
     const responseBody: any = exception.getResponse();
