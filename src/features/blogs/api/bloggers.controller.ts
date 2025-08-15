@@ -205,7 +205,7 @@ export class BloggersController {
       req.headers.authorization as string,
       id
     )
-    console.log(users);
+    console.log('users: ', users);
     return users
   }
 }
