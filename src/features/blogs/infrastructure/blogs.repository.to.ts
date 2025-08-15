@@ -110,7 +110,12 @@ export class BlogsRepositoryTO {
       relations: ['user', 'user.banInfo'],
     })
     return bannedItems.map(item => {
-      return item.user.banInfo;
+      const {userId, ...rest} = item.user.banInfo;
+      return {
+        id: item.user.id,
+        login: item.user.login,
+        banInfo: rest
+      }
     });
 
   }

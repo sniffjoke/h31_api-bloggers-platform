@@ -28,7 +28,7 @@ export class BlogsService {
     const curUser = await this.usersService.getUserByAuthToken(bearerHeader);
     const blog = await this.blogsRepository.findBlogById(blogId);
     if (!blog) throw new NotFoundException(`Blog with id ${blogId} not found`);
-    if (curUser.id !== blog.userId) throw new ForbiddenException('Not match');
+    // if (curUser.id !== blog.userId) throw new ForbiddenException('Not match');
     const users = await this.blogsRepository.getUsersForCurrentBlog(blogId)
     // console.log('users: ', users);
     return users

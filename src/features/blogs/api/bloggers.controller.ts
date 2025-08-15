@@ -201,10 +201,12 @@ export class BloggersController {
     // const updateBlog = await this.commandBus.execute(new UpdateBlogCommand(id, dto, req.headers.authorization as string));
     // return updateBlog;
     // await this.blogsService.banUserForBlog(req.headers.authorization as string, dto)
-    return await this.blogsService.getBannedUsers(
+    const users = await this.blogsService.getBannedUsers(
       req.headers.authorization as string,
       id
     )
+    console.log(users);
+    return users
   }
 }
 
