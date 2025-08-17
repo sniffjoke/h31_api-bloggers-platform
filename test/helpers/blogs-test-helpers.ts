@@ -4,6 +4,7 @@ import { ConfigurationType } from '../../src/core/settings/env/configuration';
 import { BlogCreateModel } from '../../src/features/blogs/api/models/input/create-blog.input.model';
 import request from 'supertest';
 import { codeAuth } from './test-helpers';
+import { BanInfoForUserDto } from '../../src/features/blogs/api/models/input/ban-user-for-blog.dto';
 
 export class BlogsTestManager {
   constructor(
@@ -74,6 +75,31 @@ export class BlogsTestManager {
     return response;
   }
 
+  //------------_BLOGGER PLATFORM_---------------//
+
+  async createBlogByBlogger(createModel: BlogCreateModel, accessToken: string) {
+    const response = await request(this.app.getHttpServer())
+      .post('/blogger/blogs')
+      .send(createModel)
+      .set({ 'Authorization': 'Bearer ' +  accessToken});
+    return response;
+  }
+
+  async banUserForBlog(createModel: BanInfoForUserDto, accessToken: string, id: string) {
+    const response = await request(this.app.getHttpServer())
+      .put('/blogger/users/' + `${id}` + '/ban')
+      .send(createModel)
+      .set({ 'Authorization': 'Bearer ' +  accessToken});
+    return response;
+  }
+
+  async getUsersBannedForBlog(accessToken: string, blogId: string) {
+    const response = await request(this.app.getHttpServer())
+      .get(`/blogger/users/blog/${blogId}`)
+      .set({ 'Authorization': 'Bearer ' +  accessToken});
+    return response;
+  }
+
 }
 
 export const createMockBlog = (uniqueIndex: number) => ({
@@ -81,3 +107,5 @@ export const createMockBlog = (uniqueIndex: number) => ({
   description: 'description' + `${uniqueIndex}`,
   websiteUrl: 'http://some-' + `${uniqueIndex}` + '-url.com',
 });
+
+

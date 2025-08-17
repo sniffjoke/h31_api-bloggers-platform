@@ -31,7 +31,13 @@ export class BlogsService {
     if (curUser.id !== blog.userId) throw new ForbiddenException('Not match');
     const users = await this.blogsRepository.getUsersForCurrentBlog(blogId)
     // console.log('users: ', users);
-    return users
+    return {
+      pagesCount: 0,
+      page: 0,
+      pageSize: 0,
+      totalCount: 0,
+      items: users
+    }
   }
 
 }
