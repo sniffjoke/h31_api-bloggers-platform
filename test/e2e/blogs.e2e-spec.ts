@@ -10,6 +10,7 @@ import { ThrottlerGuard } from '@nestjs/throttler';
 import { JwtService } from '@nestjs/jwt';
 import { createMockPost, PostsTestManager } from '../helpers/posts-test-helpers';
 import { BanInfoForUserDto } from '../../src/features/blogs/api/models/input/ban-user-for-blog.dto';
+import { CommentsTestManager, createMockComment } from '../helpers/comments-test-helpers';
 
 describe('BlogsController (e2e)', () => {
   let app: INestApplication;
@@ -18,6 +19,7 @@ describe('BlogsController (e2e)', () => {
   let usersManager: UsersTestManager;
   let usersService: UsersService;
   let authManager: AuthTestManager;
+  let commentsManager: CommentsTestManager;
 
 
   beforeAll(async () => {
@@ -42,6 +44,7 @@ describe('BlogsController (e2e)', () => {
     usersManager = result.userTestManager;
     usersService = result.usersService;
     authManager = result.authTestManager;
+    commentsManager = result.commentTestManager;
     // await deleteAllData(app)
   });
 
@@ -362,7 +365,15 @@ describe('BlogsController (e2e)', () => {
         blog.body.id
       )
 
-      console.log('bannedUsers: ', bannedUsers.body);
+      const comment = await commentsManager.createComment(
+        createMockComment(1),
+        post.body.id,
+        loginUser.body.accessToken,
+      );
+
+      console.log('comment: ', comment.body);
+
+      // console.log('bannedUsers: ', bannedUsers.body);
 
       // console.log('user: ', user.body.login);
       // console.log('blog: ', blog.body);

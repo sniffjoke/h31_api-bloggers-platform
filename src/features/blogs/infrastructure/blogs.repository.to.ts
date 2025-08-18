@@ -127,4 +127,15 @@ export class BlogsRepositoryTO {
 
   }
 
+  async checkUserInBL(userId: string, blogId: string) {
+    const bannedItems = await this.banRepository.find({
+      where: {
+        userId,
+        blogId
+      },
+      // relations: ['user', 'blogBanInfo'],
+    })
+    return bannedItems
+  }
+
 }
