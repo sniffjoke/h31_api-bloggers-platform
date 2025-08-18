@@ -119,7 +119,7 @@ export class BlogsRepositoryTO {
       const {blogBanId, ...rest} = item.blogBanInfo;
       // console.log('blogBanInfo: ', item.blogBanInfo);
       return {
-        id: item.user.id,
+        id: item.user.id.toString(),
         login: item.user.login,
         banInfo: rest
       }
