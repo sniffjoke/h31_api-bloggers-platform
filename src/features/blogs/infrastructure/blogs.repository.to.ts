@@ -6,6 +6,7 @@ import { BlogEntity } from '../domain/blogs.entity';
 import { UserEntity } from '../../users/domain/user.entity';
 import { BanInfoForUserDto } from '../api/models/input/ban-user-for-blog.dto';
 import { BlogBanEntity } from '../domain/blogBan.entity';
+import { BlogBanInfoEntity } from '../domain/blogBanInfo.entity';
 
 @Injectable()
 export class BlogsRepositoryTO {
@@ -83,13 +84,18 @@ export class BlogsRepositoryTO {
       // console.log(isBanExist);
 
       if (!isBanExist) {
-        const newBan = new BlogBanEntity();
-        newBan.blogId = dto.blogId;
-        newBan.userId = user.id;
-        // newBan.user = user;
-        // newBan.blog = blog;
-        // console.log('NewBan: ', newBan);
-        await this.banRepository.save(newBan);
+        const ban = new BlogBanEntity();
+        ban.blogId = dto.blogId;
+        ban.userId = user.id;
+        // ban.user = user;
+        // ban.blog = blog;
+        // console.log('NewBan: ', ban);
+        const newBan = await this.banRepository.save(ban);
+        const banInfo = new BlogBanInfoEntity()
+        banInfo.isBanned = dto.isBanned
+        banInfo.banReason = dto.banReason
+        banInfo.blogBanId = newBan.id
+        await this.banRepository.manager.save(banInfo);
       }
     } else {
       const isBanExist = await this.banRepository.findOne({
@@ -107,10 +113,11 @@ export class BlogsRepositoryTO {
   async getUsersForCurrentBlog(blogId: string) {
     const bannedItems = await this.banRepository.find({
       where: {blogId},
-      relations: ['user', 'user.banInfo'],
+      relations: ['user', 'blogBanInfo'],
     })
     return bannedItems.map(item => {
-      const {userId, ...rest} = item.user.banInfo;
+      const {blogBanId, ...rest} = item.blogBanInfo;
+      // console.log('blogBanInfo: ', item.blogBanInfo);
       return {
         id: item.user.id,
         login: item.user.login,
