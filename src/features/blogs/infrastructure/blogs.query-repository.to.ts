@@ -116,6 +116,7 @@ export class BlogsQueryRepositoryTO {
     blogId: string,
   ) {
     const generateQueryBan = await this.generateQueryBan(query, blogId);
+    console.log('query: ', generateQueryBan);
     const items = this.banInfoRepository
       .createQueryBuilder('i')
       .leftJoinAndSelect('i.blogBan', 'ban')
@@ -125,7 +126,7 @@ export class BlogsQueryRepositoryTO {
       })
       .andWhere('ban.blogId = :id', { id: blogId })
       .orderBy(
-        `i."${generateQueryBan.sortBy}"`,
+        `"${generateQueryBan.sortBy}"`,
         generateQueryBan.sortDirection.toUpperCase(),
       )
       .offset((generateQueryBan.page - 1) * generateQueryBan.pageSize)
@@ -166,7 +167,7 @@ export class BlogsQueryRepositoryTO {
       pageSize,
       pagesCount,
       page: query.pageNumber ? Number(query.pageNumber) : 1,
-      sortBy: query.sortBy ? query.sortBy : 'banDate',
+      sortBy: query.sortBy ? query.sortBy : 'createdAt',
       sortDirection: query.sortDirection ? query.sortDirection : 'desc',
       searchLoginTerm: '%' + searchLoginTerm + '%',
     };
