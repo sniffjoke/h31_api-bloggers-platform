@@ -73,6 +73,8 @@ export class BlogsRepositoryTO {
   //   return newBlog.id;
   // }
 
+  // --------------------- USERS-BAN ------------------------ //
+
   async banUserForBlog(dto: BanInfoForUserDto, user: UserEntity) {
     const ifBlogExist = await this.bRepository.findOne({where: {id: dto.blogId}})
     if (!ifBlogExist) throw new NotFoundException(`Blog with id ${dto.blogId} not found`);

@@ -10,7 +10,7 @@ import { ThrottlerGuard } from '@nestjs/throttler';
 import { JwtService } from '@nestjs/jwt';
 import { createMockPost, PostsTestManager } from '../helpers/posts-test-helpers';
 import { BanInfoForUserDto } from '../../src/features/blogs/api/models/input/ban-user-for-blog.dto';
-import { CommentsTestManager, createMockComment } from '../helpers/comments-test-helpers';
+import { CommentsTestManager } from '../helpers/comments-test-helpers';
 
 describe('BlogsController (e2e)', () => {
   let app: INestApplication;
@@ -354,24 +354,50 @@ describe('BlogsController (e2e)', () => {
         blogId: blog.body.id,
       }
 
+      const modelForUnBan: BanInfoForUserDto = {
+        isBanned: false,
+        banReason: 'banReason21symbolsfjdslkejwlkjf',
+        blogId: blog.body.id,
+      }
+
       const upd = await blogsManager.banUserForBlog(
         modelForBan,
         loginUser.body.accessToken,
         user2.body.id
       );
 
+      console.log('upd1status: ', upd.status);
+
+
+      const upd2 = await blogsManager.banUserForBlog(
+        modelForUnBan,
+        loginUser.body.accessToken,
+        user2.body.id
+      );
+
+      console.log('upd2status: ', upd2.status);
+
+      const upd3 = await blogsManager.banUserForBlog(
+        modelForBan,
+        loginUser.body.accessToken,
+        user2.body.id
+      );
+
+      console.log('upd3status: ', upd3.status);
+
+
       const bannedUsers = await blogsManager.getUsersBannedForBlog(
         loginUser.body.accessToken,
         blog.body.id
       )
 
-      const comment = await commentsManager.createComment(
-        createMockComment(1),
-        post.body.id,
-        loginUser.body.accessToken,
-      );
-
-      console.log('comment: ', comment.body);
+      // const comment = await commentsManager.createComment(
+      //   createMockComment(1),
+      //   post.body.id,
+      //   loginUser.body.accessToken,
+      // );
+      //
+      // console.log('comment: ', comment.body);
 
       // console.log('bannedUsers: ', bannedUsers.body);
 

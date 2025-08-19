@@ -8,7 +8,7 @@ export class BlogsService {
 
   constructor(
     private readonly blogsRepository: BlogsRepositoryTO,
-    private readonly usersService: UsersService,
+    private readonly usersService: UsersService
   ) {
   }
 

@@ -12,3 +12,7 @@ export class BanUserForBlogDto {
 export class BanInfoForUserDto extends BanUserForBlogDto {
   blogId: string
 }
+
+export class BanInfoForUserView extends BanUserForBlogDto {
+  banDate: string
+}

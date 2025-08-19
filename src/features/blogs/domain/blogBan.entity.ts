@@ -24,7 +24,7 @@ export class BlogBanEntity {
     @JoinColumn({ name: 'blogId' })
     blog: BlogEntity;
 
-    @OneToOne(() => BlogBanInfoEntity, (info) => info.blogBan, { onDelete: 'CASCADE' } )
+    @OneToOne(() => BlogBanInfoEntity, (info) => info.blogBan )
     blogBanInfo: BlogBanInfoEntity
 
 }

@@ -171,7 +171,7 @@ export class BloggersController {
     return deletePost;
   }
 
-  // --------------------- users ------------------------ //
+  // --------------------- USERS-BAN ------------------------ //
 
   @Put('users/:id/ban')
   @HttpCode(204)
@@ -186,7 +186,7 @@ export class BloggersController {
     await this.blogsService.banUserForBlog(
       req.headers.authorization as string,
       dto,
-      id
+      id,
     );
   }
 
@@ -196,17 +196,24 @@ export class BloggersController {
   async getBannedUsersForBlog(
     @Param('id') id: string,
     // @Body() dto: BanInfoForUserDto,
+    @Query() query: any,
     @Req() req: Request,
   ) {
     // const updateBlog = await this.commandBus.execute(new UpdateBlogCommand(id, dto, req.headers.authorization as string));
     // return updateBlog;
     // await this.blogsService.banUserForBlog(req.headers.authorization as string, dto)
+    const items =
+      await this.blogsQueryRepository.getAllBannedUsersForCurrentBlog(
+        query,
+        id,
+      );
+    // console.log('items: ', items);
     const users = await this.blogsService.getBannedUsers(
       req.headers.authorization as string,
-      id
-    )
+      id,
+    );
     // console.log('users: ', users);
-    return users
+    return items;
   }
 }
 
