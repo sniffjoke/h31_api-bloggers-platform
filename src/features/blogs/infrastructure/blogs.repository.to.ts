@@ -104,7 +104,16 @@ export class BlogsRepositoryTO {
         where: { userId: user.id, blogId: dto.blogId },
       });
       if (!isBanExist) {
-        throw new NotFoundException(`Not banned`);
+        // throw new NotFoundException(`Not banned`);
+        const ban = new BlogBanEntity();
+        ban.blogId = dto.blogId;
+        ban.userId = user.id;
+        const newBan = await this.banRepository.save(ban);
+        const banInfo = new BlogBanInfoEntity()
+        banInfo.isBanned = dto.isBanned
+        banInfo.banReason = dto.banReason
+        banInfo.blogBanId = newBan.id
+        await this.banRepository.manager.save(banInfo);
       } else {
         await this.banRepository.delete({id: isBanExist.id})
       }
