@@ -116,7 +116,6 @@ export class BlogsQueryRepositoryTO {
     blogId: string,
   ) {
     const generateQueryBan = await this.generateQueryBan(query, blogId);
-    console.log('query: ', generateQueryBan);
     const items = this.banInfoRepository
       .createQueryBuilder('i')
       .leftJoinAndSelect('i.blogBan', 'ban')
@@ -125,6 +124,7 @@ export class BlogsQueryRepositoryTO {
         name: generateQueryBan.searchLoginTerm.toLowerCase(),
       })
       .andWhere('ban.blogId = :id', { id: blogId })
+      .andWhere('ban.banStatus = :status', {status: true})
       .orderBy(
         `"${generateQueryBan.sortBy}"`,
         generateQueryBan.sortDirection.toUpperCase(),
@@ -158,6 +158,7 @@ export class BlogsQueryRepositoryTO {
         name: `%${searchLoginTerm.toLowerCase()}%`,
       })
       .andWhere('ban.blogId = :id', { id: blogId })
+      .andWhere('ban.banStatus = :status', {status: true})
     const totalCountWithQuery = await totalCount.getCount();
     const pageSize = query.pageSize ? +query.pageSize : 10;
     const pagesCount = Math.ceil(totalCountWithQuery / pageSize);

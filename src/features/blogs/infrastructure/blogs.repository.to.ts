@@ -89,6 +89,7 @@ export class BlogsRepositoryTO {
         const ban = new BlogBanEntity();
         ban.blogId = dto.blogId;
         ban.userId = user.id;
+        ban.banStatus = true;
         // ban.user = user;
         // ban.blog = blog;
         // console.log('NewBan: ', ban);
@@ -108,6 +109,7 @@ export class BlogsRepositoryTO {
         const ban = new BlogBanEntity();
         ban.blogId = dto.blogId;
         ban.userId = user.id;
+        ban.banStatus = false;
         const newBan = await this.banRepository.save(ban);
         const banInfo = new BlogBanInfoEntity()
         banInfo.isBanned = dto.isBanned
@@ -115,7 +117,9 @@ export class BlogsRepositoryTO {
         banInfo.blogBanId = newBan.id
         await this.banRepository.manager.save(banInfo);
       } else {
-        await this.banRepository.delete({id: isBanExist.id})
+        isBanExist.banStatus = false;
+        await this.banRepository.save(isBanExist)
+        // await this.banRepository.delete({id: isBanExist.id})
       }
     }
     return;
@@ -139,10 +143,11 @@ export class BlogsRepositoryTO {
   }
 
   async checkUserInBL(userId: string, blogId: string) {
-    const bannedItems = await this.banRepository.find({
+    const   bannedItems = await this.banRepository.find({
       where: {
         userId,
-        blogId
+        blogId,
+        banStatus: true
       },
       // relations: ['user', 'blogBanInfo'],
     })

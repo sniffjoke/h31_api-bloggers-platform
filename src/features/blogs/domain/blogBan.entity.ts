@@ -10,6 +10,9 @@ export class BlogBanEntity {
     @PrimaryGeneratedColumn()
     id: string;
 
+    @Column({default: false})
+    banStatus: boolean
+
     @Column()
     userId: string;
 

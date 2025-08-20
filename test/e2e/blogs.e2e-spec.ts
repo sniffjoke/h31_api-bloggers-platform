@@ -399,7 +399,7 @@ describe('BlogsController (e2e)', () => {
       //
       // console.log('comment: ', comment.body);
 
-      // console.log('bannedUsers: ', bannedUsers.body);
+      console.log('bannedUsers: ', bannedUsers.body);
 
       // console.log('user: ', user.body.login);
       // console.log('blog: ', blog.body);
